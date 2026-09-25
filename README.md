@@ -1,30 +1,69 @@
-# KnowIT
+# KnowIT — Production-Inspired RAG Application
 
-## Description
-KnowIT is a modular Retrieval-Augmented Generation (RAG) platform built for learning enterprise-grade LLM application architecture.
+KnowIT is a full-stack Retrieval-Augmented Generation (RAG) application built with **FastAPI**, **React**, **PostgreSQL (PGVector)**, and **uv**.
 
-This repository is structured as a monorepo containing both the backend and frontend components.
+---
 
-## Folder Structure
-```text
-knowit/
-├── backend/            # FastAPI Backend
-│   ├── app/
-│   ├── tests/
-│   ├── .env.example
-│   ├── README.md
-│   └── requirements.txt
-├── frontend/           # Frontend Application
-│   └── README.md
-├── README.md           # Root README
-└── .gitignore
+## Architecture Overview
+
+* **Frontend**: React 19, TypeScript, Vite, Tailwind CSS v4, TanStack Query, React Hook Form, Zod
+* **Backend**: FastAPI, Async SQLAlchemy, Alembic, `uv` Package & Environment Manager
+* **Database**: PostgreSQL 17 + PGVector extension
+* **Storage**: AWS S3 Object Storage
+* **AI Providers**: Groq LLM API (`llama-3.3-70b-versatile`), Swappable Embedding Provider Abstraction
+* **Observability**: Structured `structlog` JSON logs, Promtail, Loki, Grafana dashboard
+* **Deployment**: Multi-stage Docker builds, Docker Compose, Traefik Reverse Proxy, GitHub Actions CI/CD
+
+---
+
+## Quick Start with Docker Compose
+
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Start the full application stack (PostgreSQL + PGVector, Backend, Frontend, Traefik, Loki, Promtail, Grafana):
+   ```bash
+   docker compose up --build -d
+   ```
+
+3. Access the application:
+   * **Frontend Application**: `http://localhost` (or `http://localhost:5173`)
+   * **Backend API Documentation**: `http://localhost/api/v1/docs` (or `http://localhost:8000/docs`)
+   * **Grafana Dashboard**: `http://localhost:3000` (Admin / admin)
+   * **Traefik Dashboard**: `http://localhost:8080`
+
+---
+
+## Local Development Setup
+
+### Backend
+
+```bash
+cd backend
+uv venv
+uv sync
+uv run uvicorn app.main:app --reload
 ```
 
-## Sub-projects
+### Run Tests
 
-- [Backend Documentation](./backend/README.md)
-- [Frontend Documentation](./frontend/README.md)
+```bash
+cd backend
+uv run pytest -v
+```
 
-## Project Status
+### Frontend
 
-🚧 Under active development 🚧
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## License
+
+MIT License.
